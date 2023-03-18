@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+@property --bg-y {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 50;
+}
+
+@property --bg-x {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 50;
+}
+
+@property --border-lightness {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 100;
+}
+
+@property --button-before-opacity {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 100;
+}
+
+@property --button-shadow-opacity {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background-color: hsl(240deg 4% 9%);
+    display: flex;
+    place-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+button {
+    --border-lightness: 50;
+    --button-radius: 12px;
+    --button-shadow-offset: -4;
+    --button-shadow-opacity: 0;
+    --button-before-opacity: 1;
+    --button-shadow: 0 calc(var(--button-shadow-offset)*1px) calc((var(--button-shadow-offset)*3)*1px) hsla(230deg 100% 80% / var(--button-shadow-opacity)), 0 2px 4px hsla(0deg 0% 0% / 80%);
+    cursor: pointer;
+    font-size: 1.3em;
+    font-weight: bold;
+    appearance: none;
+    position: relative;
+    border: 1px solid hsl(280deg 0% calc(var(--border-lightness)*1%));
+    padding: 1em 2em;
+    border-radius: var(--button-radius);
+    background-color: hsl(250deg 40% 20%);
+    background-image: url("./images/galaxy.jpg");
+    background-size: 200%;
+    background-position: calc(var(--bg-x)/ 10 * -1%);
+    color: white;
+    box-shadow: var(--button-shadow);
+    transition: --bg-y 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67), --bg-x 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67), --button-shadow-opacity 0s linear, --border-lightness 1s linear, background-position 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    transform: scale(1.2);
+    color: transparent;
+    user-select: none;
+}
+
+button::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: hsla(0deg 0% 0% / var(--button-before-opacity));
+    width: 100%;
+    height: 100%;
+    border-radius: calc(var(--button-radius));
+    transition: --button-before-opacity 0.2s case;
+}
+
+button::after {
+    content: attr(data-title);
+    display: block;
+    position: absolute;
+    font-weight: bold;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: linear-gradient(#ffffff, #ffffff, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+button:hover {
+    --border-lightness: 90;
+    --button-shadow-offset: 4;
+    --button-shadow-opacity: 0.4;
+    transition: --button-shadow-opacity 0.2s linear, --border-lightness 0.2s linear;
+}
+
+button:hover::before {
+    --button-before-opacity: 0;
+}
